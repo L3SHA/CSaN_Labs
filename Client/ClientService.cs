@@ -68,7 +68,7 @@ namespace Client
                     }
                     
                 } while (client.Available > 0);
-                Message message = messageSerializer.Deserialize(messageContainer.GetBuffer(), messageContainer.GetBuffer().Length);
+                Message message = messageSerializer.Deserialize(messageContainer.GetBuffer());
                 HandleMessage(message);
             }
         }
@@ -149,7 +149,7 @@ namespace Client
             while (true)
             {
                 int amount = socketUdpHandler.ReceiveFrom(data, ref endPoint);
-                Message message = messageSerializer.Deserialize(data, amount);
+                Message message = messageSerializer.Deserialize(data);
                 if (message.messageType == MessageTypes.SearchResponse)
                 {
                     HandleMessage(message);

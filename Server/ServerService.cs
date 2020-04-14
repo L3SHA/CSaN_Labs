@@ -70,7 +70,7 @@ namespace Server
                 } while (clientInfo.Client.Available > 0);
                 if (messageContainer.GetBuffer().Length > 0)
                 {
-                    Message message = messageSerializer.Deserialize(messageContainer.GetBuffer(), messageContainer.GetBuffer().Length);
+                    Message message = messageSerializer.Deserialize(messageContainer.GetBuffer());
                     HandleMessage(message, clientInfo);
                 }
             }
@@ -169,7 +169,7 @@ namespace Server
             while (true)
             {
                 int amount = socketListener.ReceiveFrom(data, ref endPoint);
-                Message message = messageSerializer.Deserialize(data, amount);
+                Message message = messageSerializer.Deserialize(data);
                 if (message.messageType == MessageTypes.SearchRequest)
                     HandleSearchMessage(message);
             }

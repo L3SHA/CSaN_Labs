@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System.IO;
 using System;
-using System.Xml.Serialization;
 
 namespace Common
 {
@@ -10,20 +9,12 @@ namespace Common
     {
         public byte[] Serialize(Message message)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Message));
-            MemoryStream messageContainer = new MemoryStream();
-            serializer.Serialize(messageContainer, message);
-            return messageContainer.GetBuffer();
+            return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
         }
 
-        public Message Deserialize(byte[] data, int amount)
+        public Message Deserialize(byte[] data)
         {
-            MemoryStream messageContainer = new MemoryStream();
-            messageContainer.Write(data, 0, amount);
-            XmlSerializer serializer = new XmlSerializer(typeof(Message));
-            messageContainer.Position = 0;
-            Message message = (Message)serializer.Deserialize(messageContainer);
-            return message;
+            return JsonConvert.DeserializeObject<Message>(Encoding.UTF8.GetString(data));
         }
     }
 }

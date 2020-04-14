@@ -22,7 +22,7 @@ namespace Common
         SearchRequest,
         SearchResponse
     }
-
+   // [Serializable]
     public class Message
     {
 
