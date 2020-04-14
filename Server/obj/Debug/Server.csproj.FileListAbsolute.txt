@@ -1,0 +1,10 @@
+C:\Fourth semester\CSaN\Server\bin\Debug\Server.exe.config
+C:\Fourth semester\CSaN\Server\bin\Debug\Server.exe
+C:\Fourth semester\CSaN\Server\bin\Debug\Server.pdb
+C:\Fourth semester\CSaN\Server\bin\Debug\Common.dll
+C:\Fourth semester\CSaN\Server\bin\Debug\Common.pdb
+C:\Fourth semester\CSaN\Server\bin\Debug\Common.dll.config
+C:\Fourth semester\CSaN\Server\obj\Debug\Server.csprojAssemblyReference.cache
+C:\Fourth semester\CSaN\Server\obj\Debug\Server.csproj.CopyComplete
+C:\Fourth semester\CSaN\Server\obj\Debug\Server.exe
+C:\Fourth semester\CSaN\Server\obj\Debug\Server.pdb
