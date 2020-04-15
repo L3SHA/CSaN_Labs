@@ -17,19 +17,13 @@ namespace Client
         private MessageSerializer messageSerializer;
         public int ServerPort { private set; get;}
         public string ServerIPAddress { private set; get;}
-        public int ID { private set; get; }
-        public Dictionary<int, string> Conversations { private set; get; }
-        public Dictionary<int, string> Users { private set; get; }
         public delegate void HandleEvent();
         private event HandleEvent UpdateUI;
         private Thread thread;
 
         public ClientService()
         {
-            messageSerializer = new MessageSerializer();
-            Users = new Dictionary<int, string>();
-            Conversations = new Dictionary<int, string>();
-            Conversations.Add(-1, "");
+            messageSerializer = MessageSerializer.GetInstance();
             SetUdpEndPoint();
         }
 

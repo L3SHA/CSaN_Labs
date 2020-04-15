@@ -7,6 +7,22 @@ namespace Common
 {
     public class MessageSerializer : ISerializer
     {
+        private static MessageSerializer messageSerializer;
+
+        private MessageSerializer()
+        {
+
+        }
+
+        public static MessageSerializer GetInstance()
+        {
+            if(messageSerializer == null)
+            {
+                messageSerializer = new MessageSerializer();
+            }
+            return messageSerializer;
+        }
+
         public byte[] Serialize(Message message)
         {
             return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));

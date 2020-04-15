@@ -91,5 +91,10 @@ namespace Common
             this.ipAddress = ipAddress;
             this.port = port;
         }
+
+        public Message(string message)
+        {
+            this.message = message;
+        }
     }
 }

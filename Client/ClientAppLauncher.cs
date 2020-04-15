@@ -6,17 +6,15 @@ using System.Windows.Forms;
 
 namespace Client
 {
-    static class Program
+    static class ClientAppLauncher
     {
-        /// <summary>
-        /// Главная точка входа для приложения.
-        /// </summary>
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Form1 gui = new Form1();
+            Application.Run(gui);
         }
     }
 }

@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataUpdateEvents.cs" />
     <Compile Include="ISerializer.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageSerializer.cs" />
