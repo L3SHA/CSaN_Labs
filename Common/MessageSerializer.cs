@@ -25,12 +25,15 @@ namespace Common
 
         public byte[] Serialize(Message message)
         {
-            return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+            return Encoding.Default.GetBytes(JsonConvert.SerializeObject(message));
         }
 
-        public Message Deserialize(byte[] data)
+        public Message Deserialize(byte[] data, int size)
         {
-            return JsonConvert.DeserializeObject<Message>(Encoding.UTF8.GetString(data));
+            var temp = new byte[size];
+            Array.Copy(data, 0, temp, 0, size);
+            Console.WriteLine(Encoding.Default.GetString(temp));
+            return JsonConvert.DeserializeObject<Message>(Encoding.Default.GetString(temp));
         }
     }
 }

@@ -9,6 +9,6 @@ namespace Common
     public interface IMessageSerializer
     {
         byte[] Serialize(Message message);
-        Message Deserialize(byte[] buffer);
+        Message Deserialize(byte[] buffer, int size);
     }
 }

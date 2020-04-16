@@ -72,14 +72,7 @@ namespace Client
 
         public void SaveMessage(Message message, int id)
         {
-            if (conversations.ContainsKey(id))
-            {
-                conversations[id].Add(message);
-            }
-            else
-            {
-                conversations.Add(id, new List<Message>());
-            }
+            conversations[id].Add(message);
             UpdateUI?.Invoke(DataUpdateEvents.Events.MessagesUpdate);
         }
 
@@ -121,6 +114,16 @@ namespace Client
         public IPEndPoint GetEndPointAddress()
         {
             return ipEndPoint;
+        }
+
+        public void AddConversation(int id)
+        {
+            conversations.Add(id, new List<Message>());
+        }
+
+        public void DeleteConversation(int id)
+        {
+            conversations.Remove(id);
         }
     }
 }

@@ -71,7 +71,7 @@ namespace Server
                 } while (clientInfo.Client.Available > 0);
                 if (messageContainer.GetBuffer().Length > 0)
                 {
-                    Message message = messageSerializer.Deserialize(messageContainer.GetBuffer());
+                    Message message = messageSerializer.Deserialize(messageContainer.GetBuffer(), messageContainer.GetBuffer().Length);
                     HandleMessage(message, clientInfo);
                 }
             }
@@ -117,12 +117,25 @@ namespace Server
                     SendPrivateMessage(message);
                     break;
                 case MessageTypes.UserJoinOrLeft:
+                    SendMessageJoinLeft(message);
+                    break;
                 case MessageTypes.ToAllMsg:
                     SendMessageToAll(message);
                     break;
                     /*case "ServerStoped":
                         //SendMeassgeToAll();
                         break;*/
+            }
+        }
+
+        public void SendMessageJoinLeft(Message message)
+        {
+            foreach (int id in Connections.Keys)
+            {
+                if (message.id != id)
+                {
+                    Connections[id].Send(messageSerializer.Serialize(message));
+                }
             }
         }
 
@@ -170,7 +183,7 @@ namespace Server
             while (true)
             {
                 int amount = socketListener.ReceiveFrom(data, ref endPoint);
-                Message message = messageSerializer.Deserialize(data);
+                Message message = messageSerializer.Deserialize(data, amount);
                 if (message.messageType == MessageTypes.SearchRequest)
                     HandleSearchMessage(message);
             }

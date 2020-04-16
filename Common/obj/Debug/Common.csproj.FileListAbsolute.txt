@@ -51,4 +51,3 @@ C:\Fourth semester\CSaN\CSaN_Labs\Common\bin\Debug\System.ValueTuple.xml
 C:\Fourth semester\CSaN\CSaN_Labs\Common\obj\Debug\Common.csproj.CopyComplete
 C:\Fourth semester\CSaN\CSaN_Labs\Common\obj\Debug\Common.dll
 C:\Fourth semester\CSaN\CSaN_Labs\Common\obj\Debug\Common.pdb
-C:\Fourth semester\CSaN\CSaN_Labs\Common\obj\Debug\Common.csprojAssemblyReference.cache

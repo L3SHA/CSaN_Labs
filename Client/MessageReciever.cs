@@ -40,7 +40,7 @@ namespace Client
                         //add some exception to handle it on higher level
                     }
                 } while (socket.Available > 0);
-                message = messageSerializer.Deserialize(messageContainer.GetBuffer());
+                message = messageSerializer.Deserialize(messageContainer.GetBuffer(), messageContainer.GetBuffer().Length);
                 MessageHandler.HandleMessage(message);
             }
         }

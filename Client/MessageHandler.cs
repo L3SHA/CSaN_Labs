@@ -17,12 +17,14 @@ namespace Client
             {
                 case MessageTypes.RegResponse:
                     clientRepositoryService.SetClientID(message.id);
+                    clientRepositoryService.AddConversation(-1);
                     clientRepositoryService.SaveMessage(message, -1);
                     foreach (UserInfo userInfo in message.users)
                     {
                         if (clientRepositoryService.GetClientID() != userInfo.ID)
                         {
                             clientRepositoryService.AddUser(userInfo.ID, userInfo.Name);
+                            clientRepositoryService.AddConversation(userInfo.ID);
                         }
                     }
                     break;
@@ -33,13 +35,14 @@ namespace Client
                         {
                             clientRepositoryService.SaveMessage(message, -1);
                             clientRepositoryService.AddUser(message.id, message.name);
+                            clientRepositoryService.AddConversation(message.id);
                         }
                     }
                     else
                     {
                         clientRepositoryService.SaveMessage(message, -1);
                         clientRepositoryService.DeleteUser(message.id);
-                        //clientRepositoryService.DeleteMessages(id); add deleting of conversation with this user
+                        clientRepositoryService.DeleteConversation(message.id);
                         //warning if user is deleted but you watching his messages how gui reacts?
                     }
                     break;

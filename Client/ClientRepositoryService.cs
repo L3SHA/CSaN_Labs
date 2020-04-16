@@ -55,12 +55,19 @@ namespace Client
         public string GetMessagesText(int id)
         {
             List<Message> messageList = clientRepository.GetMessageList(id);
-            var messagesText = new StringBuilder();
-            foreach(Message message in messageList)
+            if (messageList != null)
             {
-                messagesText.Append(message.message + "\r\n");
+                var messagesText = new StringBuilder();
+                foreach (Message message in messageList)
+                {
+                    messagesText.Append(message.message + "\r\n");
+                }
+                return messagesText.ToString();
             }
-            return messagesText.ToString();
+            else 
+            {
+                return "";
+            }
         }
 
         public List<string> GetUsersList()
@@ -108,6 +115,16 @@ namespace Client
         public IPEndPoint GetEndPointAddress()
         {
             return clientRepository.GetEndPointAddress();
+        }
+
+        public void AddConversation(int id)
+        {
+            clientRepository.AddConversation(id);
+        }
+
+        public void DeleteConversation(int id)
+        {
+            clientRepository.DeleteConversation(id);
         }
     }
 }

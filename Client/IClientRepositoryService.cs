@@ -34,5 +34,9 @@ namespace Client
         void SetEndPointAddress(string ipAddress, string port);
 
         IPEndPoint GetEndPointAddress();
+
+        void AddConversation(int id);
+
+        void DeleteConversation(int id);
     }
 }
