@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Common;
+using System.Net;
+using System.Net.Sockets;
 using System.Collections.Generic;
-using Common;
 
 namespace Client
 {
     interface IClientRepository
     {
+        void ClearRepository();
+
         void SaveMessage(Message message, int id);
 
         void SaveClientID(int id);
@@ -19,5 +22,17 @@ namespace Client
         List<Message> GetMessageList(int id);
 
         Dictionary<int, string> GetUsers();
+
+        void SaveClientSocket(Socket client);
+
+        Socket GetClientSocket();
+
+        void SaveClientName(string name);
+
+        string GetClientName();
+
+        void SaveEndPointAddress(IPEndPoint ipEndPoint);
+
+        IPEndPoint GetEndPointAddress();
     }
 }

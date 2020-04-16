@@ -18,7 +18,7 @@ namespace Server
             Conversations = new Dictionary<int, string>();
             Connections = new Dictionary<int, Socket>();
             Conversations.Add(-1, "");
-            messageSerializer = new MessageSerializer();
+            messageSerializer = MessageSerializer.GetInstance();
         }
         private Socket server, client;
         private const int MaxConnectionAmount = 10;
@@ -33,6 +33,7 @@ namespace Server
         public void StartServer()
         {
             IPEndPoint endPoint = new IPEndPoint(NetNodeInfo.GetCurrentIP(), port);
+            Console.WriteLine(endPoint);
             server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             server.Bind(endPoint);
             server.Listen(MaxConnectionAmount);

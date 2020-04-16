@@ -5,7 +5,7 @@ using System;
 
 namespace Common
 {
-    public class MessageSerializer : ISerializer
+    public class MessageSerializer : IMessageSerializer
     {
         private static MessageSerializer messageSerializer;
 

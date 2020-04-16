@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common
+namespace Client
 {
-    interface ISerializer
+    interface IClientService
     {
-        byte[] Serialize(Message message);
-        Message Deserialize(byte[] buffer);
+        void StartClient();
+
+        void CloseClient();
     }
 }

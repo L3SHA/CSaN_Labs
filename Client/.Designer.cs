@@ -1,6 +1,6 @@
 ﻿namespace Client
 {
-    partial class Form1
+    partial class fMain
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -194,7 +194,7 @@
             this.btnFindServer.UseVisualStyleBackColor = true;
             this.btnFindServer.Click += new System.EventHandler(this.btnFindServer_Click);
             // 
-            // Form1
+            // fMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -215,8 +215,8 @@
             this.Controls.Add(this.tbPort);
             this.Controls.Add(this.btnDisconnect);
             this.Controls.Add(this.btnConnect);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "fMain";
+            this.Text = "Chat Client";
             this.ResumeLayout(false);
             this.PerformLayout();
 

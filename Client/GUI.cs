@@ -13,37 +13,47 @@ using System.Text.RegularExpressions;
 
 namespace Client
 {
-    public partial class Form1 : Form
+    public partial class fMain : Form
     {
-        ClientService client;
-        public Form1()
+        IClientService client;
+        IClientRepositoryService clientRepositoryService;
+        public fMain()
         {
             InitializeComponent();
             client = new ClientService();
-            client.Subscribe(UpdateGUI);
+            clientRepositoryService = ClientRepositoryService.GetInstance();
+            ClientRepository.GetInstance().SubscribeUIUpdate(UpdateGUI);
             lbUsers.SelectedIndexChanged += lbUsers_SelectedIndexChanged;
         }
 
-        public void UpdateGUI()
+        public void UpdateGUI(DataUpdateEvents.Events events)
         {
-            Action action = UpdateMessages;
-            action += UpdateUsers;
-            action += UpdateServerInfo;
+            Action action;
+            if (events == DataUpdateEvents.Events.MessagesUpdate)
+            {
+                action = UpdateMessages;
+            }
+            else
+            {
+                action = UpdateUsers;
+            }
+            //action += UpdateServerInfo;
             Invoke(action);
         }
 
-        private void UpdateServerInfo()
+        /*private void UpdateServerInfo()
         {
-            tbIPAddress.Text = client.ServerIPAddress;
-            tbPort.Text = client.ServerPort.ToString();
-        }
+            //tbIPAddress.Text = client.ServerIPAddress;
+            //tbPort.Text = client.ServerPort.ToString();
+        }*/
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
             try
             {
-                client.StartClient(IPAddress.Parse(tbIPAddress.Text), int.Parse(tbPort.Text));
-                client.SendMessage(new Common.Message(MessageTypes.RegRequest, tbName.Text));
+                clientRepositoryService.SetEndPointAddress(tbIPAddress.Text, tbPort.Text);
+                clientRepositoryService.SetClientName(tbName.Text);
+                client.StartClient();
                 tbName.ReadOnly = true;
                 tbIPAddress.ReadOnly = true;
                 tbPort.ReadOnly = true;
@@ -59,20 +69,19 @@ namespace Client
             }
         }
 
-        private void UpdateMessages()
+        private void btnDisconnect_Click(object sender, EventArgs e)
         {
-            if(cbMsgToAll.Checked)
-            {
-                tbMessages.Text = client.Conversations[-1];
-            }
-            else
-            {
-                if(lbUsers.SelectedIndex != -1)
-                {
-                    int index = GetIDFromString((string)lbUsers.Items[lbUsers.SelectedIndex]);
-                    tbMessages.Text = client.Conversations[index];
-                }
-            }
+            client.CloseClient();
+            btnDisconnect.Enabled = false;
+            btnConnect.Enabled = true;
+            tbIPAddress.ReadOnly = false;
+            tbName.ReadOnly = false;
+            tbPort.ReadOnly = false;
+            btnSend.Enabled = false;
+            tbMessages.Clear();
+            lbUsers.Items.Clear();
+            cbMsgToAll.Checked = true;
+            cbMsgToAll.Enabled = false;
         }
 
         private int GetIDFromString(string str)
@@ -89,44 +98,41 @@ namespace Client
         {
             
             lbUsers.Items.Clear();
-            foreach(int id in client.Users.Keys)
+            foreach(string userInfo in clientRepositoryService.GetUsersList())
             {
-                if (id != -1)
-                {
-                    lbUsers.Items.Add("User id:" + id + " " + client.Users[id]);
-                }
+                lbUsers.Items.Add(userInfo);
             }
         }
 
-        private void btnDisconnect_Click(object sender, EventArgs e)
-        {
-            client.SendMessage(new Common.Message(MessageTypes.UserJoinOrLeft, client.ID, tbName.Text, tbName.Text + " left the chat", false));
-            client.CloseClient();
-            btnDisconnect.Enabled = false;
-            btnConnect.Enabled = true;
-            tbIPAddress.ReadOnly = false;
-            tbName.ReadOnly = false;
-            tbPort.ReadOnly = false;
-            btnSend.Enabled = false;
-            tbMessages.Clear();
-            lbUsers.Items.Clear();
-            cbMsgToAll.Checked = true;
-            cbMsgToAll.Enabled = false;
-        }
-
-        private void btnSend_Click(object sender, EventArgs e)
+        private void UpdateMessages()
         {
             if (cbMsgToAll.Checked)
             {
-                client.SendMessage(new Common.Message(MessageTypes.ToAllMsg, -1, "[Public Message]" + DateTime.Now + " From " + tbName.Text + ": " + tbMessage.Text));
+                tbMessages.Text = clientRepositoryService.GetMessagesText(-1);
             }
             else
             {
                 if (lbUsers.SelectedIndex != -1)
                 {
                     int index = GetIDFromString((string)lbUsers.Items[lbUsers.SelectedIndex]);
-                    client.Conversations[index] += tbMessage.Text;
-                    client.SendMessage(new Common.Message(MessageTypes.PrivateMsg, client.ID, index, "[Private Message]" + DateTime.Now + " From " + tbName.Text + ": " + tbMessage.Text));
+                    tbMessages.Text = clientRepositoryService.GetMessagesText(index);
+                }
+            }
+        }
+
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+            if (cbMsgToAll.Checked)
+            {
+                MessageSender.SendMessage(MessageCreator.CreateMessageToAll(tbMessage.Text));
+            }
+            else
+            {
+                if (lbUsers.SelectedIndex != -1)
+                {
+                    int index = GetIDFromString((string)lbUsers.Items[lbUsers.SelectedIndex]);
+                    clientRepositoryService.SaveMessage(MessageCreator.CreatePrivateMessage(tbMessage.Text, index), index);
+                    MessageSender.SendMessage(MessageCreator.CreatePrivateMessage(tbMessage.Text, index));
                 }
                 else
                 {
@@ -141,7 +147,7 @@ namespace Client
             if(!cbMsgToAll.Checked)
             {
                 int index = GetIDFromString((string)lbUsers.Items[lbUsers.SelectedIndex]);
-                tbMessages.Text = client.Conversations[index];
+                tbMessages.Text = clientRepositoryService.GetMessagesText(index);
             }
         }
 
@@ -149,13 +155,13 @@ namespace Client
         {
             if(cbMsgToAll.Checked)
             {
-                tbMessages.Text = client.Conversations[-1];
+                tbMessages.Text = clientRepositoryService.GetMessagesText(-1);
             }
         }
 
         private void btnFindServer_Click(object sender, EventArgs e)
         {
-            client.UdpBroadcastRequest();
+            //client.UdpBroadcastRequest();
         }
     }
 }

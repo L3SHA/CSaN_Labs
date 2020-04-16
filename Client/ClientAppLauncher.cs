@@ -13,7 +13,7 @@ namespace Client
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Form1 gui = new Form1();
+            fMain gui = new fMain();
             Application.Run(gui);
         }
     }

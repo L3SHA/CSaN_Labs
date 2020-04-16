@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using Common;
 using System;
+using System.Net.Sockets;
+using System.Net;
 
 namespace Client
 {
     class ClientRepository : IClientRepository
     {
         private static ClientRepository clientRepository;
-        private delegate void HandleDataUpdate(DataUpdateEvents.Events dataUpdateEvents);
-        private event HandleDataUpdate UpdateUI;
+        public delegate void HandleDataUpdate(DataUpdateEvents.Events dataUpdateEvents);
+        public event HandleDataUpdate UpdateUI;
 
         private ClientRepository()
         {
@@ -25,10 +27,20 @@ namespace Client
             return clientRepository;
         }
 
+        public void ClearRepository()
+        {
+            id = 0;
+            client = null;
+            name = "";
+            conversations.Clear();
+            users.Clear();
+        }
+
         private int id;
-
+        private Socket client;
+        private IPEndPoint ipEndPoint;
+        private string name;
         private Dictionary<int, List<Message>> conversations;
-
         private Dictionary<int, string> users;
 
         public void AddUserToList(int id, string name)
@@ -76,9 +88,39 @@ namespace Client
             return users;
         }
 
-        void SubscribeUIUpdate(HandleDataUpdate handleDataUpdate)
+        public void SubscribeUIUpdate(HandleDataUpdate handleDataUpdate)
         {
             UpdateUI += handleDataUpdate;
+        }
+
+        public void SaveClientSocket(Socket client)
+        {
+            this.client = client;
+        }
+
+        public Socket GetClientSocket()
+        {
+            return client;
+        }
+
+        public void SaveClientName(string name)
+        {
+            this.name = name;
+        }
+
+        public string GetClientName()
+        {
+            return name;
+        }
+
+        public void SaveEndPointAddress(IPEndPoint ipEndPoint)
+        {
+            this.ipEndPoint = ipEndPoint;
+        }
+
+        public IPEndPoint GetEndPointAddress()
+        {
+            return ipEndPoint;
         }
     }
 }

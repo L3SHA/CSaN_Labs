@@ -82,7 +82,6 @@ C:\Fourth semester\CSaN\CSaN_Labs\Client\bin\Debug\System.Text.Json.xml
 C:\Fourth semester\CSaN\CSaN_Labs\Client\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Fourth semester\CSaN\CSaN_Labs\Client\bin\Debug\System.ValueTuple.xml
 C:\Fourth semester\CSaN\CSaN_Labs\Client\obj\Debug\Client.csprojAssemblyReference.cache
-C:\Fourth semester\CSaN\CSaN_Labs\Client\obj\Debug\Client.Form1.resources
 C:\Fourth semester\CSaN\CSaN_Labs\Client\obj\Debug\Client.Properties.Resources.resources
 C:\Fourth semester\CSaN\CSaN_Labs\Client\obj\Debug\Client.csproj.GenerateResource.cache
 C:\Fourth semester\CSaN\CSaN_Labs\Client\obj\Debug\Client.csproj.CopyComplete
@@ -90,3 +89,4 @@ C:\Fourth semester\CSaN\CSaN_Labs\Client\obj\Debug\Client.exe
 C:\Fourth semester\CSaN\CSaN_Labs\Client\obj\Debug\Client.pdb
 C:\Fourth semester\CSaN\CSaN_Labs\Client\bin\Debug\Newtonsoft.Json.dll
 C:\Fourth semester\CSaN\CSaN_Labs\Client\bin\Debug\Newtonsoft.Json.xml
+C:\Fourth semester\CSaN\CSaN_Labs\Client\obj\Debug\Client.fMain.resources

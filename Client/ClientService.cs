@@ -10,125 +10,43 @@ using System.IO;
 
 namespace Client
 {
-    class ClientService
+    class ClientService : IClientService
     {
-        private string broadcastIP = "192.168.99.255";
-        private Socket client, socketUdpHandler;
-        private MessageSerializer messageSerializer;
-        public int ServerPort { private set; get;}
-        public string ServerIPAddress { private set; get;}
-        public delegate void HandleEvent();
-        private event HandleEvent UpdateUI;
+        //private string broadcastIP = "192.168.99.255";
+        //private Socket client, socketUdpHandler;
+        //public int ServerPort { private set; get;}
+        //public string ServerIPAddress { private set; get;}
+        private IClientRepositoryService clientRepositoryService;
         private Thread thread;
 
         public ClientService()
         {
-            messageSerializer = MessageSerializer.GetInstance();
-            SetUdpEndPoint();
+            clientRepositoryService = ClientRepositoryService.GetInstance();
+            //SetUdpEndPoint();
         }
 
-        public void StartClient(IPAddress ipAddress, int port)
+        public void StartClient()
         {
-            client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint ipPoint = new IPEndPoint(ipAddress, port);
-            client.Connect(ipPoint); 
-            thread = new Thread(RecieveMessage);
+            var client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            clientRepositoryService.SetClientSocket(client);
+            client.Connect(clientRepositoryService.GetEndPointAddress());
+            MessageReciever messageReciever = new MessageReciever(client);
+            thread = new Thread(messageReciever.RecieveMessage);
             thread.Start();
-        }
-
-        public void SendMessage(Message message)
-        {  
-            client.Send(messageSerializer.Serialize(message));
-        }
-
-        public void RecieveMessage()
-        {
-            
-            while (client.Connected)
-            {
-                byte[] data = new byte[1024];
-                int amount;
-                MemoryStream messageContainer = new MemoryStream();
-                do
-                {
-                    try
-                    {
-                        amount = client.Receive(data);
-                        messageContainer.Write(data, 0, amount);
-                    }
-                    catch
-                    {
-
-                    }
-                    
-                } while (client.Available > 0);
-                Message message = messageSerializer.Deserialize(messageContainer.GetBuffer());
-                HandleMessage(message);
-            }
-        }
-
-        private void HandleMessage(Message message)
-        {
-            switch (message.messageType)
-            {
-                case MessageTypes.RegResponse:
-                    ID = message.id;
-                    Conversations[-1] = message.message + "\r\n";
-                    foreach (UserInfo userInfo in message.users)
-                    {
-                        if (ID != userInfo.ID)
-                        {
-                            Users.Add(userInfo.ID, userInfo.Name);
-                            Conversations.Add(userInfo.ID, "");
-                        }
-                    }
-                    break;
-                case MessageTypes.UserJoinOrLeft:
-                    if(message.isJoin)
-                    {
-                        if (message.id != ID)
-                        {
-                            Conversations.Add(message.id, "");
-                            Conversations[-1] += message.message + "\r\n";
-                            Users.Add(message.id, message.name);
-                        }
-                    }
-                    else 
-                    {
-                        Conversations[-1] += message.message + "\r\n";
-                        Conversations.Remove(message.id);
-                        Users.Remove(message.id);
-                    }  
-                    break;
-                case MessageTypes.PrivateMsg:
-                    Conversations[message.sourceID] += message.message + "\r\n";
-                    break;
-                case MessageTypes.ToAllMsg:
-                    Conversations[message.id] += message.message + "\r\n";
-                    break;
-                case MessageTypes.SearchResponse:
-                    ServerPort = message.port;
-                    ServerIPAddress = message.ipAddress;
-                    break;
-            }
-            UpdateUI?.Invoke();
-        }
-
-        public void Subscribe(HandleEvent handleEvent)
-        {
-            UpdateUI += handleEvent; 
+            MessageSender.SendMessage(MessageCreator.CreateServiceMessage(MessageTypes.RegRequest));
         }
 
         public void CloseClient()
         {
             thread.Abort();
             thread.Join(500);
-            Users.Clear();
-            Conversations.Clear();
-            client.Close();
+            MessageSender.SendMessage(MessageCreator.CreateServiceMessage(MessageTypes.UserJoinOrLeft));
+            clientRepositoryService.ClearClientRepository();
         }
 
-        public void SetUdpEndPoint()
+
+        //UDP client service
+        /*public void SetUdpEndPoint()
         {
             socketUdpHandler = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             socketUdpHandler.EnableBroadcast = true;
@@ -162,6 +80,6 @@ namespace Client
             sendRequest.SendTo(messageSerializer.Serialize(message), IPendPoint);
             Thread threadReceiveUdp = new Thread(ReceiveMessagesUdp);
             threadReceiveUdp.Start();
-        }
+        }*/
     }
 }
