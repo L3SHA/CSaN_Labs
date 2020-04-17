@@ -11,7 +11,9 @@ namespace Common
         public enum Events
         {
             UsersListUpdate,
-            MessagesUpdate
+            MessagesUpdate,
+            ServerInfoUpdate,
+            ServerConnectionUpdate
         }
     }
 }

@@ -12,17 +12,15 @@ namespace Client
 {
     class ClientService : IClientService
     {
-        //private string broadcastIP = "192.168.99.255";
-        //private Socket client, socketUdpHandler;
-        //public int ServerPort { private set; get;}
-        //public string ServerIPAddress { private set; get;}
+        private string broadcastIP = "192.168.99.255";
+        private Socket socketUdpHandler;
         private IClientRepositoryService clientRepositoryService;
         private Thread thread;
 
         public ClientService()
         {
             clientRepositoryService = ClientRepositoryService.GetInstance();
-            //SetUdpEndPoint();
+            SetUdpEndPoint();
         }
 
         public void StartClient()
@@ -41,12 +39,13 @@ namespace Client
             thread.Abort();
             thread.Join(500);
             MessageSender.SendMessage(MessageCreator.CreateServiceMessage(MessageTypes.UserJoinOrLeft));
-            clientRepositoryService.ClearClientRepository();
+            clientRepositoryService.GetClientSocket().Close();
+            //clientRepositoryService.ClearClientRepository();
         }
 
 
         //UDP client service
-        /*public void SetUdpEndPoint()
+        public void SetUdpEndPoint()
         {
             socketUdpHandler = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             socketUdpHandler.EnableBroadcast = true;
@@ -54,32 +53,32 @@ namespace Client
             socketUdpHandler.Bind(localEndPoint);
         }
 
-        public void ReceiveMessagesUdp()
+        private void ReceiveMessagesUdp()
         {
             byte[] data = new byte[1024];
             EndPoint endPoint = socketUdpHandler.LocalEndPoint;
             while (true)
             {
                 int amount = socketUdpHandler.ReceiveFrom(data, ref endPoint);
-                Message message = messageSerializer.Deserialize(data);
+                Message message = MessageSerializer.GetInstance().Deserialize(data, amount);
                 if (message.messageType == MessageTypes.SearchResponse)
                 {
-                    HandleMessage(message);
+                    MessageHandler.HandleMessage(message);
                     return;
                 }
             }
         }
 
-        public void UdpBroadcastRequest()
+        public void FindServerRequest()
         {
             Message message = new Message(MessageTypes.SearchRequest);
             message.port = ((IPEndPoint)socketUdpHandler.LocalEndPoint).Port;
             message.ipAddress = NetNodeInfo.GetCurrentIP().ToString();
             IPEndPoint IPendPoint = new IPEndPoint(IPAddress.Parse(broadcastIP), 8005);
             Socket sendRequest = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            sendRequest.SendTo(messageSerializer.Serialize(message), IPendPoint);
+            sendRequest.SendTo(MessageSerializer.GetInstance().Serialize(message), IPendPoint);
             Thread threadReceiveUdp = new Thread(ReceiveMessagesUdp);
             threadReceiveUdp.Start();
-        }*/
+        }
     }
 }

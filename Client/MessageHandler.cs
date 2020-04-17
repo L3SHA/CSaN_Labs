@@ -52,6 +52,9 @@ namespace Client
                 case MessageTypes.ToAllMsg:
                     clientRepositoryService.SaveMessage(message, -1);
                     break;
+                case MessageTypes.SearchResponse:
+                    clientRepositoryService.SetEndPointAddress(message.ipAddress, message.port.ToString());
+                    break;
                 /*case MessageTypes.SearchResponse:
                     ServerPort = message.port;
                     ServerIPAddress = message.ipAddress;

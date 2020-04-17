@@ -11,5 +11,7 @@ namespace Client
         void StartClient();
 
         void CloseClient();
+
+        void FindServerRequest();
     }
 }

@@ -122,9 +122,6 @@ namespace Server
                 case MessageTypes.ToAllMsg:
                     SendMessageToAll(message);
                     break;
-                    /*case "ServerStoped":
-                        //SendMeassgeToAll();
-                        break;*/
             }
         }
 

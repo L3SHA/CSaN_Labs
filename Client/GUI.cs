@@ -26,27 +26,6 @@ namespace Client
             lbUsers.SelectedIndexChanged += lbUsers_SelectedIndexChanged;
         }
 
-        public void UpdateGUI(DataUpdateEvents.Events events)
-        {
-            Action action;
-            if (events == DataUpdateEvents.Events.MessagesUpdate)
-            {
-                action = UpdateMessages;
-            }
-            else
-            {
-                action = UpdateUsers;
-            }
-            //action += UpdateServerInfo;
-            Invoke(action);
-        }
-
-        /*private void UpdateServerInfo()
-        {
-            //tbIPAddress.Text = client.ServerIPAddress;
-            //tbPort.Text = client.ServerPort.ToString();
-        }*/
-
         private void btnConnect_Click(object sender, EventArgs e)
         {
             try
@@ -72,16 +51,7 @@ namespace Client
         private void btnDisconnect_Click(object sender, EventArgs e)
         {
             client.CloseClient();
-            btnDisconnect.Enabled = false;
-            btnConnect.Enabled = true;
-            tbIPAddress.ReadOnly = false;
-            tbName.ReadOnly = false;
-            tbPort.ReadOnly = false;
-            btnSend.Enabled = false;
-            tbMessages.Clear();
-            lbUsers.Items.Clear();
-            cbMsgToAll.Checked = true;
-            cbMsgToAll.Enabled = false;
+            UpdateServerConnection();
         }
 
         private int GetIDFromString(string str)
@@ -92,6 +62,51 @@ namespace Client
             foreach (Match match in matches)
                 id = int.Parse(match.Value);
             return id; 
+        }
+
+        public void UpdateGUI(DataUpdateEvents.Events events)
+        {
+            Action action;
+            switch(events)
+            {
+                case DataUpdateEvents.Events.MessagesUpdate:
+                    action = UpdateMessages;
+                    break;
+                case DataUpdateEvents.Events.UsersListUpdate:
+                    action = UpdateUsers;
+                    break;
+                case DataUpdateEvents.Events.ServerInfoUpdate:
+                    action = UpdateServerInfo;
+                    break;
+                case DataUpdateEvents.Events.ServerConnectionUpdate:
+                    action = UpdateServerConnection;
+                    break;
+                default:
+                    action = null;
+                    break;
+            }
+            Invoke(action);
+        }
+
+        private void UpdateServerInfo()
+        {
+            tbIPAddress.Text = clientRepositoryService.GetEndPointAddress().Address.ToString();
+            tbPort.Text = clientRepositoryService.GetEndPointAddress().Port.ToString();
+        }
+
+        private void UpdateServerConnection()
+        {
+            clientRepositoryService.ClearClientRepository();
+            cbMsgToAll.Enabled = false;
+            cbMsgToAll.Checked = true;
+            btnDisconnect.Enabled = false;
+            btnConnect.Enabled = true;
+            tbIPAddress.ReadOnly = false;
+            tbName.ReadOnly = false;
+            tbPort.ReadOnly = false;
+            btnSend.Enabled = false;
+            tbMessages.Clear();
+            lbUsers.Items.Clear();
         }
 
         private void UpdateUsers()
@@ -153,7 +168,7 @@ namespace Client
 
         private void cbMsgToAll_CheckedChanged(object sender, EventArgs e)
         {
-            if(cbMsgToAll.Checked)
+            if(cbMsgToAll.Checked && cbMsgToAll.Enabled)
             {
                 tbMessages.Text = clientRepositoryService.GetMessagesText(-1);
             }
@@ -161,7 +176,7 @@ namespace Client
 
         private void btnFindServer_Click(object sender, EventArgs e)
         {
-            //client.UdpBroadcastRequest();
+            client.FindServerRequest();
         }
     }
 }

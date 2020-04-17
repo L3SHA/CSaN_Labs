@@ -37,11 +37,14 @@ namespace Client
                     }
                     catch
                     {
-                        //add some exception to handle it on higher level
+                        ClientRepositoryService.GetInstance().SetClientSocket(null);
                     }
                 } while (socket.Available > 0);
-                message = messageSerializer.Deserialize(messageContainer.GetBuffer(), messageContainer.GetBuffer().Length);
-                MessageHandler.HandleMessage(message);
+                if (messageContainer.GetBuffer().Length > 0)
+                {
+                    message = messageSerializer.Deserialize(messageContainer.GetBuffer(), messageContainer.GetBuffer().Length);
+                    MessageHandler.HandleMessage(message);
+                }
             }
         }
     }

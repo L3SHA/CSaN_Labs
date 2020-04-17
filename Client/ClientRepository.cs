@@ -88,7 +88,14 @@ namespace Client
 
         public void SaveClientSocket(Socket client)
         {
-            this.client = client;
+            if (client == null)
+            {
+                UpdateUI?.Invoke(DataUpdateEvents.Events.ServerConnectionUpdate);
+            }
+            else 
+            {
+                this.client = client;
+            }
         }
 
         public Socket GetClientSocket()
@@ -109,6 +116,7 @@ namespace Client
         public void SaveEndPointAddress(IPEndPoint ipEndPoint)
         {
             this.ipEndPoint = ipEndPoint;
+            UpdateUI?.Invoke(DataUpdateEvents.Events.ServerInfoUpdate);
         }
 
         public IPEndPoint GetEndPointAddress()
