@@ -32,7 +32,6 @@
             this.btnDisconnect = new System.Windows.Forms.Button();
             this.tbPort = new System.Windows.Forms.TextBox();
             this.tbIPAddress = new System.Windows.Forms.TextBox();
-            this.tbMessages = new System.Windows.Forms.TextBox();
             this.btnSend = new System.Windows.Forms.Button();
             this.tbMessage = new System.Windows.Forms.TextBox();
             this.cbMsgToAll = new System.Windows.Forms.CheckBox();
@@ -44,6 +43,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.lbUsers = new System.Windows.Forms.ListBox();
             this.btnFindServer = new System.Windows.Forms.Button();
+            this.btnAttach = new System.Windows.Forms.Button();
+            this.lbMessages = new System.Windows.Forms.ListBox();
+            this.lFiles = new System.Windows.Forms.Label();
+            this.btnView = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnConnect
@@ -80,15 +83,6 @@
             this.tbIPAddress.Name = "tbIPAddress";
             this.tbIPAddress.Size = new System.Drawing.Size(116, 20);
             this.tbIPAddress.TabIndex = 3;
-            // 
-            // tbMessages
-            // 
-            this.tbMessages.Location = new System.Drawing.Point(73, 45);
-            this.tbMessages.Multiline = true;
-            this.tbMessages.Name = "tbMessages";
-            this.tbMessages.ReadOnly = true;
-            this.tbMessages.Size = new System.Drawing.Size(368, 190);
-            this.tbMessages.TabIndex = 4;
             // 
             // btnSend
             // 
@@ -194,11 +188,52 @@
             this.btnFindServer.UseVisualStyleBackColor = true;
             this.btnFindServer.Click += new System.EventHandler(this.btnFindServer_Click);
             // 
+            // btnAttach
+            // 
+            this.btnAttach.Enabled = false;
+            this.btnAttach.Location = new System.Drawing.Point(212, 396);
+            this.btnAttach.Name = "btnAttach";
+            this.btnAttach.Size = new System.Drawing.Size(100, 28);
+            this.btnAttach.TabIndex = 18;
+            this.btnAttach.Text = "Attach files";
+            this.btnAttach.UseVisualStyleBackColor = true;
+            this.btnAttach.Click += new System.EventHandler(this.btnAttach_Click);
+            // 
+            // lbMessages
+            // 
+            this.lbMessages.FormattingEnabled = true;
+            this.lbMessages.Location = new System.Drawing.Point(73, 45);
+            this.lbMessages.Name = "lbMessages";
+            this.lbMessages.Size = new System.Drawing.Size(368, 186);
+            this.lbMessages.TabIndex = 19;
+            // 
+            // lFiles
+            // 
+            this.lFiles.AutoSize = true;
+            this.lFiles.Location = new System.Drawing.Point(70, 339);
+            this.lFiles.Name = "lFiles";
+            this.lFiles.Size = new System.Drawing.Size(0, 13);
+            this.lFiles.TabIndex = 20;
+            // 
+            // btnView
+            // 
+            this.btnView.Location = new System.Drawing.Point(461, 107);
+            this.btnView.Name = "btnView";
+            this.btnView.Size = new System.Drawing.Size(75, 23);
+            this.btnView.TabIndex = 21;
+            this.btnView.Text = "ViewFiles";
+            this.btnView.UseVisualStyleBackColor = true;
+            this.btnView.Click += new System.EventHandler(this.button1_Click);
+            // 
             // fMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnView);
+            this.Controls.Add(this.lFiles);
+            this.Controls.Add(this.lbMessages);
+            this.Controls.Add(this.btnAttach);
             this.Controls.Add(this.btnFindServer);
             this.Controls.Add(this.lbUsers);
             this.Controls.Add(this.label5);
@@ -210,13 +245,13 @@
             this.Controls.Add(this.cbMsgToAll);
             this.Controls.Add(this.tbMessage);
             this.Controls.Add(this.btnSend);
-            this.Controls.Add(this.tbMessages);
             this.Controls.Add(this.tbIPAddress);
             this.Controls.Add(this.tbPort);
             this.Controls.Add(this.btnDisconnect);
             this.Controls.Add(this.btnConnect);
             this.Name = "fMain";
             this.Text = "Chat Client";
+            this.Activated += new System.EventHandler(this.fMain_Activated);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -228,7 +263,6 @@
         private System.Windows.Forms.Button btnDisconnect;
         private System.Windows.Forms.TextBox tbPort;
         private System.Windows.Forms.TextBox tbIPAddress;
-        private System.Windows.Forms.TextBox tbMessages;
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.TextBox tbMessage;
         private System.Windows.Forms.CheckBox cbMsgToAll;
@@ -240,6 +274,10 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ListBox lbUsers;
         private System.Windows.Forms.Button btnFindServer;
+        private System.Windows.Forms.Button btnAttach;
+        private System.Windows.Forms.ListBox lbMessages;
+        private System.Windows.Forms.Label lFiles;
+        private System.Windows.Forms.Button btnView;
     }
 }
 

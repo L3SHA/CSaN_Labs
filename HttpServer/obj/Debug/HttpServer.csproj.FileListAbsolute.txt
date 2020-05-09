@@ -1,0 +1,6 @@
+C:\Fourth semester\CSaN\CSaN_Labs\HttpServer\bin\Debug\HttpServer.exe.config
+C:\Fourth semester\CSaN\CSaN_Labs\HttpServer\bin\Debug\HttpServer.exe
+C:\Fourth semester\CSaN\CSaN_Labs\HttpServer\bin\Debug\HttpServer.pdb
+C:\Fourth semester\CSaN\CSaN_Labs\HttpServer\obj\Debug\HttpServer.csprojAssemblyReference.cache
+C:\Fourth semester\CSaN\CSaN_Labs\HttpServer\obj\Debug\HttpServer.exe
+C:\Fourth semester\CSaN\CSaN_Labs\HttpServer\obj\Debug\HttpServer.pdb

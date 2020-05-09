@@ -90,3 +90,5 @@ C:\Fourth semester\CSaN\CSaN_Labs\Client\obj\Debug\Client.pdb
 C:\Fourth semester\CSaN\CSaN_Labs\Client\bin\Debug\Newtonsoft.Json.dll
 C:\Fourth semester\CSaN\CSaN_Labs\Client\bin\Debug\Newtonsoft.Json.xml
 C:\Fourth semester\CSaN\CSaN_Labs\Client\obj\Debug\Client.fMain.resources
+C:\Fourth semester\CSaN\CSaN_Labs\Client\obj\Debug\Client.FileAttachment.resources
+C:\Fourth semester\CSaN\CSaN_Labs\Client\obj\Debug\Client.ViewFiles.resources

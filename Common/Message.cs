@@ -35,6 +35,7 @@ namespace Common
         public int port;
         public MessageTypes messageType; 
         public List<UserInfo> users;
+        public List<int> files;
 
 
         public Message()
@@ -61,19 +62,21 @@ namespace Common
             message = messages;
         }
 
-        public Message(MessageTypes messageType, int id, string message)
+        public Message(MessageTypes messageType, int id, string message, List<int> files)
         {
             this.messageType = messageType;
             this.id = id;
             this.message = message;
+            this.files = files;
         }
 
-        public Message(MessageTypes messageType, int sourceID, int destID, string message)
+        public Message(MessageTypes messageType, int sourceID, int destID, string message, List<int> files)
         {
             this.messageType = messageType;
             this.sourceID = sourceID;
             this.destID = destID;
             this.message = message;
+            this.files = files;
         }
 
         public Message(MessageTypes messageType, int id, string name, string message, bool isJoin)

@@ -10,14 +10,14 @@ namespace Client
     public static class MessageCreator
     {
         private static ClientRepositoryService clientRepositoryService = ClientRepositoryService.GetInstance();
-        public static Message CreateMessageToAll(string messageText)
+        public static Message CreateMessageToAll(string messageText, List<int> files)
         {
-            return new Message(MessageTypes.ToAllMsg, -1, "[Public Message]" + DateTime.Now + " From " + clientRepositoryService.GetClientName() + ": " + messageText);    
+            return new Message(MessageTypes.ToAllMsg, -1, "[Public Message]" + DateTime.Now + " From " + clientRepositoryService.GetClientName() + ": " + messageText, files);    
         }
 
-        public static Message CreatePrivateMessage(string messageText, int destID)
+        public static Message CreatePrivateMessage(string messageText, List<int> files, int destID)
         {
-            return new Message(MessageTypes.PrivateMsg, clientRepositoryService.GetClientID(), destID, "[Private Message]" + DateTime.Now + " From " + clientRepositoryService.GetClientName() + ": " + messageText);
+            return new Message(MessageTypes.PrivateMsg, clientRepositoryService.GetClientID(), destID, "[Private Message]" + DateTime.Now + " From " + clientRepositoryService.GetClientName() + ": " + messageText, files);
         }
 
         public static Message CreateServiceMessage(MessageTypes messageType)//regrequest, searchrequest

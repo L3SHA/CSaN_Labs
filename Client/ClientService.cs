@@ -40,11 +40,8 @@ namespace Client
             thread.Join(500);
             MessageSender.SendMessage(MessageCreator.CreateServiceMessage(MessageTypes.UserJoinOrLeft));
             clientRepositoryService.GetClientSocket().Close();
-            //clientRepositoryService.ClearClientRepository();
         }
 
-
-        //UDP client service
         public void SetUdpEndPoint()
         {
             socketUdpHandler = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);

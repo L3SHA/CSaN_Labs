@@ -11,7 +11,7 @@ namespace Client
 
         void SaveMessage(Message message, int id);
 
-        string GetMessagesText(int id);
+        List<Message> GetMessagesText(int id);
 
         void SetClientID(int id);
 

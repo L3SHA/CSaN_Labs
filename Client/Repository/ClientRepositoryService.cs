@@ -52,10 +52,10 @@ namespace Client
             return clientRepository.GetClientSocket();
         }
 
-        public string GetMessagesText(int id)
+        public List<Message> GetMessagesText(int id)
         {
-            List<Message> messageList = clientRepository.GetMessageList(id);
-            if (messageList != null)
+            return clientRepository.GetMessageList(id);
+            /*if (messageList != null)
             {
                 var messagesText = new StringBuilder();
                 foreach (Message message in messageList)
@@ -67,7 +67,7 @@ namespace Client
             else 
             {
                 return "";
-            }
+            }*/
         }
 
         public List<string> GetUsersList()
