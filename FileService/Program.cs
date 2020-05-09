@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common
+namespace FileService
 {
-    interface ISerializer
+    class Program
     {
-        byte[] Serialize(Message message);
-        Message Deserialize(byte[] buffer);
+        static void Main(string[] args)
+        {
+        }
     }
 }

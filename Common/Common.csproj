@@ -72,7 +72,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ISerializer.cs" />
+    <Compile Include="DataUpdateEvents.cs" />
+    <Compile Include="IMessageSerializer.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageSerializer.cs" />
     <Compile Include="NetNodeInfo.cs" />
